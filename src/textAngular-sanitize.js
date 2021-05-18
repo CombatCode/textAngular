@@ -554,6 +554,10 @@ function validStyles(styleAttr){
             || value === 'none'
         )
       ||
+        key === 'font-family' && (
+            value
+        )
+      ||
         key === 'vertical-align' && (
             value === 'baseline'
             || value === 'sub'
