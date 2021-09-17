@@ -507,9 +507,7 @@ var trim = (function() {
   };
 })();
 
-// Custom logic for accepting certain style options only - textAngular
-// Currently allows only the color, background-color, text-align, float, width and height attributes
-// all other attributes should be easily done through classes.
+// Custom logic for refuse restircted styles
 function validStyles(styleAttr){
 	var result = '';
 	var styleArray = styleAttr.split(';');
@@ -519,88 +517,29 @@ function validStyles(styleAttr){
 			var key = trim(angular.lowercase(v[0]));
 			var value = trim(angular.lowercase(v[1]));
 			if(
-				(key === 'color' || key === 'background-color') && (
-					value.match(/^rgb\([0-9%,\. ]*\)$/i)
-					|| value.match(/^rgba\([0-9%,\. ]*\)$/i)
-					|| value.match(/^hsl\([0-9%,\. ]*\)$/i)
-					|| value.match(/^hsla\([0-9%,\. ]*\)$/i)
-					|| value.match(/^#[0-9a-f]{3,6}$/i)
-					|| value.match(/^[a-z]*$/i)
-				)
-			||
-				key === 'text-align' && (
-					value === 'left'
-					|| value === 'right'
-					|| value === 'center'
-					|| value === 'justify'
-				)
-			||
-        key === 'text-decoration' && (
-            value === 'underline'
-            || value === 'line-through'
-        )
-      || 
-        key === 'font-weight' && (
-            value === 'bold'
-        )
-      ||
-        key === 'font-style' && (
-          value === 'italic'
-        )
-      ||
-        key === 'float' && (
-            value === 'left'
-            || value === 'right'
-            || value === 'none'
-        )
-      ||
-        key === 'font-family' && (
-            value
-        )
-      ||
-        key === 'vertical-align' && (
-            value === 'baseline'
-            || value === 'sub'
-            || value === 'super'
-            || value === 'test-top'
-            || value === 'text-bottom'
-            || value === 'middle'
-            || value === 'top'
-            || value === 'bottom'
-            || value.match(/[0-9]*(px|em)/)
-            || value.match(/[0-9]+?%/)
-        )
-      ||
-        key === 'font-size' && (
-            value === 'xx-small'
-            || value === 'x-small'
-            || value === 'small'
-            || value === 'medium'
-            || value === 'large'
-            || value === 'x-large'
-            || value === 'xx-large'
-            || value === 'larger'
-            || value === 'smaller'
-            || value.match(/[0-9]*\.?[0-9]*(px|em|rem|mm|q|cm|in|pt|pc|%)/)
-                               )
-			||
-				(key === 'width' || key === 'height') && (
-					value.match(/[0-9\.]*(px|em|rem|%)/)
-				)
-      ||
-				(key === 'margin' || key === 'margin-left' || key === 'margin-right' || key === 'margin-top' || key === 'margin-bottom') && (
-					value.match(/[0-9\.]*(px|em|rem|%)/)
-				)
-      ||
-				(key === 'padding' || key === 'padding-left' || key === 'padding-right' || key === 'padding-top' || key === 'padding-bottom') && (
-					value.match(/[0-9\.]*(px|em|rem|%)/)
-				)
-			|| // Reference #520
-				(key === 'direction' && value.match(/^ltr|rtl|initial|inherit$/))
+				([
+          'animation',
+          'animation-delay',
+          'animation-direction',
+          'animation-duration',
+          'animation-fill',
+          'animation-iteration',
+          'animation-name',
+          'animation-play',
+          'animation-timing',
+          'transform',
+          'transform-origin',
+          'transform-style',
+          'transition',
+          'transition-delay',
+          'transition-duration',
+          'transition-property',
+          'transition-timing',
+        ].indexOf(key) === -1)
 			) result += key + ': ' + value + ';';
 		}
 	});
-	return result;
+	return styleAttr;
 }
 
 // this function is used to manually allow specific attributes on specific tags with certain prerequisites
